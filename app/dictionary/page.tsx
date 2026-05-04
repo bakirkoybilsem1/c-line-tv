@@ -7,15 +7,15 @@ type Sign = {
   id: string;
   word: string;
   meaning: string;
-  student_name: string;
   image_url: string;
   video_url: string;
+  student_name: string;
 };
 
 export default function DictionaryPage() {
   const [items, setItems] = useState<Sign[]>([]);
 
-  async function loadItems() {
+  async function loadData() {
     const { data, error } = await supabase
       .from("signs")
       .select("*")
@@ -26,73 +26,66 @@ export default function DictionaryPage() {
   }
 
   useEffect(() => {
-    loadItems();
+    loadData();
   }, []);
 
   return (
     <main style={styles.page}>
-      <h1 style={styles.title}>C-LINE TV Sözlük</h1>
-      <p style={styles.desc}>Sadece öğretmen tarafından onaylanan içerikler görünür.</p>
+      <h1 style={styles.title}>Sözlük</h1>
 
-      <section style={styles.grid}>
+      <div style={styles.grid}>
         {items.map((item) => (
           <div key={item.id} style={styles.card}>
-            <h2 style={styles.word}>{item.word}</h2>
-            <p style={styles.meaning}>{item.meaning}</p>
+            <h2>{item.word}</h2>
+            <p>{item.meaning}</p>
 
             {item.image_url && (
-              <img src={item.image_url} alt={item.word} style={styles.image} />
+              <img src={item.image_url} style={styles.img} />
             )}
 
             {item.video_url && (
               <video src={item.video_url} controls style={styles.video} />
             )}
 
-            <p style={styles.student}>Katkı: {item.student_name}</p>
+            <p style={styles.student}>👤 {item.student_name}</p>
           </div>
         ))}
-      </section>
+      </div>
     </main>
   );
 }
 
-const styles: Record<string, React.CSSProperties> = {
+const styles: any = {
   page: {
-    minHeight: "100vh",
-    background: "linear-gradient(135deg,#020617,#0f172a)",
-    color: "white",
     padding: 30,
-    fontFamily: "Arial",
+    background: "#020617",
+    color: "white",
+    minHeight: "100vh",
   },
-  title: { fontSize: 42, margin: 0 },
-  desc: { color: "#cbd5e1" },
+  title: { fontSize: 40 },
   grid: {
-    marginTop: 30,
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))",
     gap: 20,
+    marginTop: 20,
   },
   card: {
-    background: "rgba(255,255,255,.08)",
-    borderRadius: 24,
+    background: "#0f172a",
     padding: 20,
-    border: "1px solid rgba(255,255,255,.15)",
+    borderRadius: 20,
   },
-  word: { fontSize: 30, margin: 0 },
-  meaning: { color: "#e2e8f0", lineHeight: 1.6 },
-  image: {
+  img: {
     width: "100%",
-    borderRadius: 18,
-    maxHeight: 260,
-    objectFit: "cover",
-    marginTop: 12,
+    borderRadius: 10,
+    marginTop: 10,
   },
   video: {
     width: "100%",
-    borderRadius: 18,
-    maxHeight: 260,
-    background: "black",
-    marginTop: 12,
+    borderRadius: 10,
+    marginTop: 10,
   },
-  student: { color: "#67e8f9", fontWeight: 700 },
+  student: {
+    color: "#22d3ee",
+    marginTop: 10,
+  },
 };
