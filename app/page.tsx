@@ -40,18 +40,23 @@ export default function Home() {
   const t = tData[lang];
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white p-6">
-      
-      {/* NAV */}
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">C-LINE TV</h1>
+    <main className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-950 text-white">
+
+      {/* NAVBAR */}
+      <div className="flex justify-between items-center px-10 py-6">
+        <h1 className="text-3xl font-black tracking-wide">
+          C-LINE <span className="text-cyan-400">TV</span>
+        </h1>
+
         <div className="flex gap-2">
-          {["tr", "en", "lv", "it"].map((l) => (
+          {(["tr","en","lv","it"] as Lang[]).map((l) => (
             <button
               key={l}
-              onClick={() => setLang(l as Lang)}
-              className={`px-3 py-1 rounded ${
-                lang === l ? "bg-cyan-400 text-black" : "bg-white/10"
+              onClick={() => setLang(l)}
+              className={`px-3 py-1 rounded-lg text-sm font-bold transition ${
+                lang === l
+                  ? "bg-cyan-400 text-black"
+                  : "bg-white/10 hover:bg-white/20"
               }`}
             >
               {l.toUpperCase()}
@@ -61,37 +66,82 @@ export default function Home() {
       </div>
 
       {/* HERO */}
-      <div className="mt-20 text-center">
-        <h2 className="text-5xl font-bold">{t.hero}</h2>
-        <p className="mt-4 text-gray-300">{t.sub}</p>
+      <section className="text-center px-6 mt-20">
+        <h2 className="text-5xl md:text-7xl font-black leading-tight">
+          {t.hero}
+        </h2>
 
-        <div className="mt-8 flex justify-center gap-4">
-          <button className="bg-cyan-400 text-black px-6 py-3 rounded">
+        <p className="mt-6 text-lg text-gray-300 max-w-2xl mx-auto">
+          {t.sub}
+        </p>
+
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
+          <button className="bg-cyan-400 text-black px-8 py-4 rounded-xl font-bold shadow-lg hover:scale-105 transition">
             {t.student}
           </button>
-          <button className="bg-yellow-400 text-black px-6 py-3 rounded">
+
+          <button className="bg-yellow-400 text-black px-8 py-4 rounded-xl font-bold shadow-lg hover:scale-105 transition">
             {t.teacher}
           </button>
-          <button className="border px-6 py-3 rounded">
+
+          <button className="border border-white/20 px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition">
             {t.dict}
           </button>
         </div>
-      </div>
+      </section>
 
-      {/* DEMO */}
-      <div className="mt-20 max-w-xl mx-auto bg-white/10 p-6 rounded-xl">
-        <h3 className="text-2xl font-bold">👋 Hello</h3>
-        <div className="flex gap-4 mt-4">
-          <div className="w-1/2 h-32 bg-cyan-400 flex items-center justify-center">📷</div>
-          <div className="w-1/2 h-32 bg-slate-800 flex items-center justify-center">🎥</div>
+      {/* CARD */}
+      <section className="mt-20 px-6 flex justify-center">
+        <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-6 max-w-xl w-full shadow-2xl">
+
+          <div className="flex justify-between items-center mb-4">
+            <div>
+              <p className="text-sm text-gray-400">Sample</p>
+              <h3 className="text-3xl font-black">👋 Hello</h3>
+            </div>
+
+            <span className="bg-yellow-400 text-black px-4 py-1 rounded-full text-sm font-bold">
+              Approved
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="h-40 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-4xl">
+              📷
+            </div>
+
+            <div className="h-40 rounded-2xl bg-slate-800 flex items-center justify-center text-4xl">
+              🎥
+            </div>
+          </div>
+
+          <p className="mt-5 text-gray-300">
+            Greeting expression
+          </p>
         </div>
-        <p className="mt-4 text-gray-300">
-          Greeting expression
-        </p>
-      </div>
+      </section>
 
-      <footer className="mt-20 text-center text-gray-500">
-        C-LINE TV · Multilingual Learning Platform
+      {/* FEATURES */}
+      <section className="mt-24 px-6 grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {[
+          ["📷", "Photo Learning", "Students upload visual content"],
+          ["🎥", "Video Learning", "Dynamic sign demonstrations"],
+          ["🌍", "Multilingual", "TR / EN / LV / IT support"],
+        ].map(([icon, title, desc]) => (
+          <div
+            key={title}
+            className="bg-white/10 p-6 rounded-2xl border border-white/10 hover:scale-105 transition"
+          >
+            <div className="text-4xl mb-3">{icon}</div>
+            <h3 className="text-xl font-bold">{title}</h3>
+            <p className="text-gray-400 mt-2">{desc}</p>
+          </div>
+        ))}
+      </section>
+
+      {/* FOOTER */}
+      <footer className="mt-24 text-center text-gray-500 py-10 border-t border-white/10">
+        C-LINE TV · Next.js + Supabase · Modern Learning Platform
       </footer>
     </main>
   );
