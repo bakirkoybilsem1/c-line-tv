@@ -1,9 +1,4 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
-  experimental: {
-    missingSuspenseWithCSRBailout: false,
-  },
+  staticPageGenerationTimeout: 0,
+  generateBuildId: async () => 'build',
 };
-
-export default nextConfig;
