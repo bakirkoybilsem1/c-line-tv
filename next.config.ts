@@ -1,4 +1,5 @@
-const nextConfig = {
-  staticPageGenerationTimeout: 0,
-  generateBuildId: async () => 'build',
-};
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {};
+
+export default nextConfig;
