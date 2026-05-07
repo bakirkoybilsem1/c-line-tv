@@ -6,57 +6,79 @@ type Lang = "tr" | "en" | "lv" | "it";
 
 const text = {
   tr: {
-    hero: "Öğrencilerin ürettiği fotoğraf ve videolarla öğrenen platform",
-    sub: "C-LINE TV; öğrencilerin kelime, anlam, fotoğraf ve video yüklediği, öğretmenin onayladığı çok dilli görsel öğrenme sistemidir.",
+    hero: "İşaret Dili Kütüphanesi",
+    slogan1: "Herkes İçin Girişimcilik",
+    slogan2: "Kapsayıcılık",
+    slogan3: "Herkes İçin Dijital Dönüşüm",
+    slogan4: "Yeşil Enerji",
     student: "Öğrenci Paneli",
     teacher: "Öğretmen Paneli",
     dict: "Sözlüğü İncele",
-    badge: "Fotoğraf + Video + Öğretmen Onayı",
+    badge: "Fotoğraf ve Video Yükle",
     word: "Örnek Kelime",
     meaning: "Selamlaşma sırasında kullanılan temel ifade.",
     f1: "Öğrenci içerik yükler",
     f2: "Öğretmen onaylar",
     f3: "Sözlükte yayınlanır",
+    footer: `Bakırköy Bilim ve Sanat Merkezi koordinatörlüğünde hazırlanan "A Common Language for Integrative Entrepreneurship (C-LINE)" başlıklı Erasmus+ KA210-SCH projesi, Türkiye Ulusal Ajansı tarafından kabul edilmiştir.`,
   },
   en: {
-    hero: "A platform powered by student-made photos and videos",
-    sub: "C-LINE TV is a multilingual visual learning system where students upload words, meanings, photos and videos, and teachers approve them.",
+    hero: "Sign Language Library",
+    slogan1: "Entrepreneurship for All",
+    slogan2: "Inclusivity",
+    slogan3: "Digital Transformation for All",
+    slogan4: "Green Energy",
     student: "Student Panel",
     teacher: "Teacher Panel",
     dict: "View Dictionary",
-    badge: "Photo + Video + Teacher Approval",
+    badge: "Upload Photo & Video",
     word: "Sample Word",
     meaning: "A basic expression used for greeting.",
     f1: "Student uploads content",
     f2: "Teacher approves",
     f3: "Published in dictionary",
+    footer: `The Erasmus+ KA210-SCH project titled "A Common Language for Integrative Entrepreneurship (C-LINE)", coordinated by Bakırköy Science and Art Centre, has been accepted by the Turkish National Agency.`,
   },
   lv: {
-    hero: "Platforma ar skolēnu veidotiem foto un video",
-    sub: "C-LINE TV ir daudzvalodu vizuālās mācīšanās sistēma, kur skolēni augšupielādē vārdus, nozīmes, foto un video, bet skolotāji tos apstiprina.",
+    hero: "Zīmju valodas bibliotēka",
+    slogan1: "Uzņēmējdarbība visiem",
+    slogan2: "Iekļaušana",
+    slogan3: "Digitālā transformācija visiem",
+    slogan4: "Zaļā enerģija",
     student: "Skolēna panelis",
     teacher: "Skolotāja panelis",
     dict: "Skatīt vārdnīcu",
-    badge: "Foto + Video + Skolotāja apstiprinājums",
+    badge: "Augšupielādēt foto un video",
     word: "Piemēra vārds",
     meaning: "Pamata izteiciens sveicienam.",
     f1: "Skolēns augšupielādē",
     f2: "Skolotājs apstiprina",
     f3: "Publicē vārdnīcā",
+    footer: `Erasmus+ KA210-SCH projekts "A Common Language for Integrative Entrepreneurship (C-LINE)", ko koordinē Bakırköy Zinātnes un mākslas centrs, ir pieņemts Turcijas Nacionālās aģentūras.`,
   },
   it: {
-    hero: "Una piattaforma basata su foto e video creati dagli studenti",
-    sub: "C-LINE TV è un sistema visivo multilingue in cui gli studenti caricano parole, significati, foto e video, e i docenti li approvano.",
+    hero: "Biblioteca della Lingua dei Segni",
+    slogan1: "Imprenditorialità per tutti",
+    slogan2: "Inclusività",
+    slogan3: "Trasformazione digitale per tutti",
+    slogan4: "Energia verde",
     student: "Pannello Studente",
     teacher: "Pannello Docente",
     dict: "Visualizza Dizionario",
-    badge: "Foto + Video + Approvazione Docente",
+    badge: "Carica foto e video",
     word: "Parola Esempio",
     meaning: "Un'espressione di base usata per salutare.",
     f1: "Lo studente carica",
     f2: "Il docente approva",
     f3: "Pubblicato nel dizionario",
+    footer: `Il progetto Erasmus+ KA210-SCH intitolato "A Common Language for Integrative Entrepreneurship (C-LINE)", coordinato dal Centro Scientifico e Artistico di Bakırköy, è stato accettato dall'Agenzia Nazionale Turca.`,
   },
+};
+
+const FLAGS: Record<string, string> = {
+  TR: "🇹🇷",
+  LV: "🇱🇻",
+  IT: "🇮🇹",
 };
 
 export default function HomePage() {
@@ -91,7 +113,12 @@ export default function HomePage() {
         <div className="heroText">
           <span className="badge">{t.badge}</span>
           <h2>{t.hero}</h2>
-          <p>{t.sub}</p>
+
+          <div className="slogans">
+            {[t.slogan1, t.slogan2, t.slogan3, t.slogan4].map((s, i) => (
+              <span key={i} className="slogan">{s}</span>
+            ))}
+          </div>
 
           <div className="actions">
             <a className="primary" href="/student">
@@ -145,7 +172,26 @@ export default function HomePage() {
       </section>
 
       <footer>
-        C-LINE TV · TR / EN / LV / IT · Student Powered Learning System
+        <div className="footerInner">
+          <div className="erasmusLogo">
+            <div className="erasmusIcon">E+</div>
+            <span>Erasmus+</span>
+          </div>
+
+          <p className="footerText">{t.footer}</p>
+
+          <div className="footerFlags">
+            {Object.entries(FLAGS).map(([code, flag]) => (
+              <span key={code} className="flagItem">
+                {flag} {code}
+              </span>
+            ))}
+          </div>
+
+          <p className="footerSub">
+            C-LINE TV · TR / EN / LV / IT · Student Powered Learning System
+          </p>
+        </div>
       </footer>
 
       <style jsx>{`
@@ -154,6 +200,7 @@ export default function HomePage() {
           background:
             radial-gradient(circle at 10% 10%, rgba(34, 211, 238, 0.35), transparent 30%),
             radial-gradient(circle at 90% 20%, rgba(250, 204, 21, 0.25), transparent 28%),
+            radial-gradient(circle at 50% 80%, rgba(34, 197, 94, 0.15), transparent 35%),
             linear-gradient(135deg, #020617, #0f172a 55%, #111827);
           color: white;
           font-family: Inter, Arial, sans-serif;
@@ -254,12 +301,30 @@ export default function HomePage() {
           max-width: 780px;
         }
 
-        .heroText p {
-          margin: 28px 0 0;
-          color: #cbd5e1;
-          font-size: 20px;
-          line-height: 1.7;
-          max-width: 680px;
+        .slogans {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 28px;
+        }
+
+        .slogan {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 16px;
+          border-radius: 999px;
+          background: rgba(34, 197, 94, 0.12);
+          border: 1px solid rgba(34, 197, 94, 0.3);
+          color: #86efac;
+          font-size: 13px;
+          font-weight: 700;
+        }
+
+        .slogan::before {
+          content: "✦";
+          font-size: 10px;
+          opacity: 0.7;
         }
 
         .actions {
@@ -422,10 +487,75 @@ export default function HomePage() {
 
         footer {
           margin-top: 70px;
-          padding: 34px 20px;
-          text-align: center;
-          color: #94a3b8;
           border-top: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.03);
+        }
+
+        .footerInner {
+          width: min(1180px, calc(100% - 40px));
+          margin: 0 auto;
+          padding: 48px 0 36px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 24px;
+          text-align: center;
+        }
+
+        .erasmusLogo {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .erasmusIcon {
+          width: 52px;
+          height: 52px;
+          border-radius: 14px;
+          background: linear-gradient(135deg, #003399, #ffcc00);
+          color: white;
+          display: grid;
+          place-items: center;
+          font-size: 18px;
+          font-weight: 900;
+          letter-spacing: -1px;
+        }
+
+        .erasmusLogo span {
+          font-size: 22px;
+          font-weight: 900;
+          color: #ffcc00;
+          letter-spacing: -0.5px;
+        }
+
+        .footerText {
+          max-width: 780px;
+          color: #cbd5e1;
+          line-height: 1.7;
+          font-size: 15px;
+          margin: 0;
+        }
+
+        .footerFlags {
+          display: flex;
+          gap: 24px;
+          align-items: center;
+        }
+
+        .flagItem {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 20px;
+          font-weight: 800;
+          color: #e2e8f0;
+          letter-spacing: 1px;
+        }
+
+        .footerSub {
+          color: #64748b;
+          font-size: 13px;
+          margin: 0;
         }
 
         @media (max-width: 900px) {
