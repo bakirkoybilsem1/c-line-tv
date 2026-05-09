@@ -1,583 +1,698 @@
-"use client";
+import { useState, useEffect } from "react";
 
-import { useState } from "react";
-
-type Lang = "tr" | "en" | "lv" | "it";
-
-const text = {
-  tr: {
-    hero: "İşaret Dili Kütüphanesi",
-    slogan1: "Herkes İçin Girişimcilik",
-    slogan2: "Kapsayıcılık",
-    slogan3: "Herkes İçin Dijital Dönüşüm",
-    slogan4: "Yeşil Enerji",
-    student: "Öğrenci Paneli",
-    teacher: "Öğretmen Paneli",
-    dict: "Sözlüğü İncele",
-    badge: "Fotoğraf ve Video Yükle",
-    word: "Örnek Kelime",
-    meaning: "Selamlaşma sırasında kullanılan temel ifade.",
-    f1: "Öğrenci içerik yükler",
-    f2: "Öğretmen onaylar",
-    f3: "Sözlükte yayınlanır",
-    footer: `Bakırköy Bilim ve Sanat Merkezi koordinatörlüğünde hazırlanan "A Common Language for Integrative Entrepreneurship (C-LINE)" başlıklı Erasmus+ KA210-SCH projesi, Türkiye Ulusal Ajansı tarafından kabul edilmiştir.`,
+const LANGS = {
+  TR: {
+    nav: ["Öğrenci Paneli", "Öğretmen Paneli", "Sözlük"],
+    hero_badge: "Fotoğraf + Video + Çok Dilli Sözlük",
+    hero_h1: ["Girişimcilik, Üretim,", "Kapsayıcılık &", "Yeşil Enerji"],
+    hero_p: "Fırsat eşitliği ve eğitimde kapsayıcılık için tasarlanmış çok dilli görsel öğrenme platformu.",
+    hero_btn1: "Öğrenci Paneli",
+    hero_btn2: "Sözlüğü İncele",
+    steps: ["Herkes İçin", "Hep Birlikte Öğreniyoruz", "ve Eğleniyoruz 🎉"],
+    upload_title: "Öğrenci İçerik Yükleme Paneli",
+    upload_word: "Kelime",
+    upload_meaning: "Anlam / Açıklama",
+    upload_name: "Öğrenci Adı",
+    upload_photo: "Fotoğraf Yükle",
+    upload_video: "Video Yükle",
+    upload_btn: "Yükle",
+    upload_success: "İçerik başarıyla yüklendi! Öğretmen onayı bekleniyor.",
+    values: ["Girişimcilik", "Üretim", "Kapsayıcılık", "Yeşil Enerji", "Fırsat Eşitliği", "Eğitimde Kapsayıcılık"],
+    erasmus_text: "Bakırköy Bilim ve Sanat Merkezi koordinatörlüğünde hazırlanan",
+    erasmus_project: '"A Common Language for Integrative Entrepreneurship (C-LINE)"',
+    erasmus_agency: "başlıklı Erasmus+ KA210-SCH projesi, Türkiye Ulusal Ajansı tarafından kabul edilmiştir.",
+    dict_btn: "Sözlüğü İncele",
+    sample_label: "Örnek Kelime",
+    sample_meaning: "Selamlama sırasında kullanılan temel ifade.",
+    student_video: "Öğrenci Videosu",
+    footer_tagline: "Student Powered Learning System",
   },
-  en: {
-    hero: "Sign Language Library",
-    slogan1: "Entrepreneurship for All",
-    slogan2: "Inclusivity",
-    slogan3: "Digital Transformation for All",
-    slogan4: "Green Energy",
-    student: "Student Panel",
-    teacher: "Teacher Panel",
-    dict: "View Dictionary",
-    badge: "Upload Photo & Video",
-    word: "Sample Word",
-    meaning: "A basic expression used for greeting.",
-    f1: "Student uploads content",
-    f2: "Teacher approves",
-    f3: "Published in dictionary",
-    footer: `The Erasmus+ KA210-SCH project titled "A Common Language for Integrative Entrepreneurship (C-LINE)", coordinated by Bakırköy Science and Art Centre, has been accepted by the Turkish National Agency.`,
+  EN: {
+    nav: ["Student Panel", "Teacher Panel", "Dictionary"],
+    hero_badge: "Photo + Video + Multilingual Dictionary",
+    hero_h1: ["Entrepreneurship, Production,", "Inclusivity &", "Green Energy"],
+    hero_p: "A multilingual visual learning platform designed for equal opportunity and inclusive education.",
+    hero_btn1: "Student Panel",
+    hero_btn2: "Browse Dictionary",
+    steps: ["For Everyone", "Learning Together", "Having Fun 🎉"],
+    upload_title: "Student Content Upload Panel",
+    upload_word: "Word",
+    upload_meaning: "Meaning / Description",
+    upload_name: "Student Name",
+    upload_photo: "Upload Photo",
+    upload_video: "Upload Video",
+    upload_btn: "Upload",
+    upload_success: "Content uploaded successfully! Awaiting teacher approval.",
+    values: ["Entrepreneurship", "Production", "Inclusivity", "Green Energy", "Equal Opportunity", "Inclusive Education"],
+    erasmus_text: "Coordinated by Bakırköy Science and Art Centre,",
+    erasmus_project: '"A Common Language for Integrative Entrepreneurship (C-LINE)"',
+    erasmus_agency: "Erasmus+ KA210-SCH project has been accepted by the Turkish National Agency.",
+    dict_btn: "Browse Dictionary",
+    sample_label: "Sample Word",
+    sample_meaning: "A basic expression used during greetings.",
+    student_video: "Student Video",
+    footer_tagline: "Student Powered Learning System",
   },
-  lv: {
-    hero: "Zīmju valodas bibliotēka",
-    slogan1: "Uzņēmējdarbība visiem",
-    slogan2: "Iekļaušana",
-    slogan3: "Digitālā transformācija visiem",
-    slogan4: "Zaļā enerģija",
-    student: "Skolēna panelis",
-    teacher: "Skolotāja panelis",
-    dict: "Skatīt vārdnīcu",
-    badge: "Augšupielādēt foto un video",
-    word: "Piemēra vārds",
-    meaning: "Pamata izteiciens sveicienam.",
-    f1: "Skolēns augšupielādē",
-    f2: "Skolotājs apstiprina",
-    f3: "Publicē vārdnīcā",
-    footer: `Erasmus+ KA210-SCH projekts "A Common Language for Integrative Entrepreneurship (C-LINE)", ko koordinē Bakırköy Zinātnes un mākslas centrs, ir pieņemts Turcijas Nacionālās aģentūras.`,
+  LV: {
+    nav: ["Skolēna panelis", "Skolotāja panelis", "Vārdnīca"],
+    hero_badge: "Foto + Video + Daudzvalodu vārdnīca",
+    hero_h1: ["Uzņēmējdarbība, Ražošana,", "Iekļaušana &", "Zaļā enerģija"],
+    hero_p: "Daudzvalodu vizuālās mācību platforma, kas veidota vienlīdzīgām iespējām un iekļaujošai izglītībai.",
+    hero_btn1: "Skolēna panelis",
+    hero_btn2: "Skatīt vārdnīcu",
+    steps: ["Visiem", "Mācāmies Kopā", "Un Izklaidējamies 🎉"],
+    upload_title: "Skolēna satura augšupielādes panelis",
+    upload_word: "Vārds",
+    upload_meaning: "Nozīme / Apraksts",
+    upload_name: "Skolēna vārds",
+    upload_photo: "Augšupielādēt foto",
+    upload_video: "Augšupielādēt video",
+    upload_btn: "Augšupielādēt",
+    upload_success: "Saturs veiksmīgi augšupielādēts! Gaida skolotāja apstiprinājumu.",
+    values: ["Uzņēmējdarbība", "Ražošana", "Iekļaušana", "Zaļā enerģija", "Vienlīdzīgas iespējas", "Iekļaujoša izglītība"],
+    erasmus_text: "Bakırköy Zinātnes un mākslas centra koordinēts,",
+    erasmus_project: '"A Common Language for Integrative Entrepreneurship (C-LINE)"',
+    erasmus_agency: "Erasmus+ KA210-SCH projekts ir apstiprināts Turcijas Nacionālā aģentūra.",
+    dict_btn: "Skatīt vārdnīcu",
+    sample_label: "Parauga vārds",
+    sample_meaning: "Pamata izteiksme, ko izmanto sveicināšanas laikā.",
+    student_video: "Skolēna video",
+    footer_tagline: "Student Powered Learning System",
   },
-  it: {
-    hero: "Biblioteca della Lingua dei Segni",
-    slogan1: "Imprenditorialità per tutti",
-    slogan2: "Inclusività",
-    slogan3: "Trasformazione digitale per tutti",
-    slogan4: "Energia verde",
-    student: "Pannello Studente",
-    teacher: "Pannello Docente",
-    dict: "Visualizza Dizionario",
-    badge: "Carica foto e video",
-    word: "Parola Esempio",
-    meaning: "Un'espressione di base usata per salutare.",
-    f1: "Lo studente carica",
-    f2: "Il docente approva",
-    f3: "Pubblicato nel dizionario",
-    footer: `Il progetto Erasmus+ KA210-SCH intitolato "A Common Language for Integrative Entrepreneurship (C-LINE)", coordinato dal Centro Scientifico e Artistico di Bakırköy, è stato accettato dall'Agenzia Nazionale Turca.`,
+  IT: {
+    nav: ["Pannello studente", "Pannello insegnante", "Dizionario"],
+    hero_badge: "Foto + Video + Dizionario multilingue",
+    hero_h1: ["Imprenditorialità, Produzione,", "Inclusività &", "Energia Verde"],
+    hero_p: "Una piattaforma di apprendimento visivo multilingue progettata per le pari opportunità e l'istruzione inclusiva.",
+    hero_btn1: "Pannello studente",
+    hero_btn2: "Sfoglia dizionario",
+    steps: ["Per Tutti", "Impariamo Insieme", "e Ci Divertiamo 🎉"],
+    upload_title: "Pannello di caricamento contenuti studente",
+    upload_word: "Parola",
+    upload_meaning: "Significato / Descrizione",
+    upload_name: "Nome studente",
+    upload_photo: "Carica foto",
+    upload_video: "Carica video",
+    upload_btn: "Carica",
+    upload_success: "Contenuto caricato con successo! In attesa dell'approvazione dell'insegnante.",
+    values: ["Imprenditorialità", "Produzione", "Inclusività", "Energia Verde", "Pari opportunità", "Istruzione inclusiva"],
+    erasmus_text: "Coordinato dal Centro Scientifico e Artistico di Bakırköy,",
+    erasmus_project: '"A Common Language for Integrative Entrepreneurship (C-LINE)"',
+    erasmus_agency: "Il progetto Erasmus+ KA210-SCH è stato accettato dall'Agenzia Nazionale turca.",
+    dict_btn: "Sfoglia dizionario",
+    sample_label: "Parola esempio",
+    sample_meaning: "Un'espressione di base usata durante i saluti.",
+    student_video: "Video studente",
+    footer_tagline: "Student Powered Learning System",
   },
 };
 
-const FLAGS: Record<string, string> = {
-  TR: "🇹🇷",
-  LV: "🇱🇻",
-  IT: "🇮🇹",
+const FLAGS = {
+  TR: (
+    <svg width="28" height="20" viewBox="0 0 28 20" style={{borderRadius:3,display:"block"}}>
+      <rect width="28" height="20" fill="#E30A17"/>
+      <circle cx="11.5" cy="10" r="4.2" fill="white"/>
+      <circle cx="13" cy="10" r="3.3" fill="#E30A17"/>
+      <polygon points="17,10 18.8,12.8 20.8,11.2 20.1,14.4 23.2,14.1 21.2,16.6 23.7,18.2 20.6,18.5 21,21.7 18.5,19.8 17,22.6 15.5,19.8 13,21.7 13.4,18.5 10.3,18.2 12.8,16.6 10.8,14.1 13.9,14.4 13.2,11.2 15.2,12.8" fill="white" transform="scale(0.55) translate(12,-6)"/>
+    </svg>
+  ),
+  EN: (
+    <svg width="28" height="20" viewBox="0 0 60 40" style={{borderRadius:3,display:"block"}}>
+      <rect width="60" height="40" fill="#012169"/>
+      <path d="M0,0 L60,40 M60,0 L0,40" stroke="white" strokeWidth="8"/>
+      <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" strokeWidth="5"/>
+      <path d="M30,0 V40 M0,20 H60" stroke="white" strokeWidth="12"/>
+      <path d="M30,0 V40 M0,20 H60" stroke="#C8102E" strokeWidth="8"/>
+    </svg>
+  ),
+  LV: (
+    <svg width="28" height="20" viewBox="0 0 28 20" style={{borderRadius:3,display:"block"}}>
+      <rect width="28" height="20" fill="#9E3039"/>
+      <rect y="7.2" width="28" height="5.6" fill="white"/>
+    </svg>
+  ),
+  IT: (
+    <svg width="28" height="20" viewBox="0 0 30 20" style={{borderRadius:3,display:"block"}}>
+      <rect width="10" height="20" fill="#009246"/>
+      <rect x="10" width="10" height="20" fill="white"/>
+      <rect x="20" width="10" height="20" fill="#CE2B37"/>
+    </svg>
+  ),
 };
 
-export default function HomePage() {
-  const [lang, setLang] = useState<Lang>("tr");
-  const t = text[lang];
+const ErasmusLogo = () => (
+  <svg viewBox="0 0 120 36" width="120" height="36" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="36" rx="4" fill="#003DA5"/>
+    <text x="8" y="13" fontFamily="Arial" fontSize="7" fill="#FFCC00" fontWeight="bold">ERASMUS+</text>
+    <text x="8" y="25" fontFamily="Arial" fontSize="5.5" fill="white">European Commission</text>
+    <circle cx="104" cy="18" r="12" fill="none" stroke="#FFCC00" strokeWidth="1.5"/>
+    {[0,1,2,3,4,5,6,7,8,9,10,11].map(i => {
+      const a = (i * 30 - 90) * Math.PI / 180;
+      return <circle key={i} cx={104 + 9*Math.cos(a)} cy={18 + 9*Math.sin(a)} r="1.5" fill="#FFCC00"/>;
+    })}
+  </svg>
+);
+
+export default function App() {
+  const [lang, setLang] = useState("TR");
+  const [showUpload, setShowUpload] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [form, setForm] = useState({ word: "", meaning: "", name: "", photo: null, video: null });
+  const [photoName, setPhotoName] = useState("");
+  const [videoName, setVideoName] = useState("");
+
+  const t = LANGS[lang];
+
+  function handleUpload(e) {
+    e.preventDefault();
+    setUploadSuccess(true);
+    setForm({ word: "", meaning: "", name: "", photo: null, video: null });
+    setPhotoName(""); setVideoName("");
+    setTimeout(() => setUploadSuccess(false), 4000);
+  }
+
+  const styles = {
+    body: {
+      minHeight: "100vh",
+      background: "linear-gradient(160deg, #050d1a 0%, #071428 40%, #0a1a1f 100%)",
+      color: "white",
+      fontFamily: "'Segoe UI', system-ui, sans-serif",
+      margin: 0,
+      padding: 0,
+    },
+    nav: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: "18px 48px",
+      borderBottom: "1px solid rgba(255,255,255,0.07)",
+      position: "sticky",
+      top: 0,
+      background: "rgba(5,13,26,0.92)",
+      backdropFilter: "blur(12px)",
+      zIndex: 100,
+    },
+    logo: {
+      display: "flex",
+      alignItems: "center",
+      gap: 12,
+    },
+    logoIcon: {
+      width: 40,
+      height: 40,
+      borderRadius: 12,
+      background: "linear-gradient(135deg, #22d3ee, #facc15)",
+      color: "#050d1a",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 22,
+      fontWeight: 900,
+    },
+    logoText: { margin: 0, fontSize: 18, fontWeight: 800, letterSpacing: -0.5 },
+    logoSub: { margin: 0, fontSize: 11, color: "#64748b" },
+    navLinks: {
+      display: "flex",
+      gap: 8,
+      alignItems: "center",
+    },
+    navBtn: {
+      padding: "8px 18px",
+      borderRadius: 20,
+      border: "1px solid rgba(255,255,255,0.15)",
+      background: "transparent",
+      color: "white",
+      fontSize: 13,
+      cursor: "pointer",
+      fontWeight: 500,
+      transition: "all 0.2s",
+    },
+    langBtns: {
+      display: "flex",
+      gap: 4,
+    },
+    langBtn: (active) => ({
+      display: "flex",
+      alignItems: "center",
+      gap: 5,
+      padding: "5px 10px",
+      borderRadius: 16,
+      border: active ? "1.5px solid #22d3ee" : "1px solid rgba(255,255,255,0.15)",
+      background: active ? "rgba(34,211,238,0.15)" : "transparent",
+      color: active ? "#22d3ee" : "#94a3b8",
+      fontSize: 12,
+      fontWeight: 700,
+      cursor: "pointer",
+    }),
+    hero: {
+      padding: "80px 48px 60px",
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: 60,
+      alignItems: "center",
+      maxWidth: 1200,
+      margin: "0 auto",
+    },
+    badge: {
+      display: "inline-block",
+      padding: "6px 16px",
+      borderRadius: 20,
+      background: "rgba(34,211,238,0.12)",
+      border: "1px solid rgba(34,211,238,0.3)",
+      color: "#22d3ee",
+      fontSize: 12,
+      fontWeight: 600,
+      marginBottom: 24,
+    },
+    h1: {
+      fontSize: 48,
+      fontWeight: 900,
+      lineHeight: 1.1,
+      margin: "0 0 20px",
+      letterSpacing: -1.5,
+    },
+    heroP: {
+      color: "#94a3b8",
+      lineHeight: 1.7,
+      fontSize: 16,
+      margin: "0 0 32px",
+    },
+    heroBtns: { display: "flex", gap: 12 },
+    btnPrimary: {
+      padding: "14px 28px",
+      borderRadius: 14,
+      border: 0,
+      background: "#22d3ee",
+      color: "#050d1a",
+      fontWeight: 900,
+      fontSize: 15,
+      cursor: "pointer",
+    },
+    btnSecondary: {
+      padding: "14px 28px",
+      borderRadius: 14,
+      border: "1px solid rgba(255,255,255,0.2)",
+      background: "transparent",
+      color: "white",
+      fontWeight: 700,
+      fontSize: 15,
+      cursor: "pointer",
+    },
+    sampleCard: {
+      background: "rgba(255,255,255,0.06)",
+      border: "1px solid rgba(255,255,255,0.12)",
+      borderRadius: 24,
+      padding: 24,
+      backdropFilter: "blur(10px)",
+    },
+    sampleTop: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 16,
+    },
+    approvedBadge: {
+      background: "#facc15",
+      color: "#050d1a",
+      padding: "4px 12px",
+      borderRadius: 20,
+      fontSize: 12,
+      fontWeight: 900,
+    },
+    mediaRow: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: 12,
+      marginBottom: 16,
+    },
+    imgBox: {
+      background: "linear-gradient(135deg, #22d3ee33, #3b82f633)",
+      borderRadius: 14,
+      height: 100,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 32,
+    },
+    videoBox: {
+      background: "rgba(0,0,0,0.4)",
+      borderRadius: 14,
+      height: 100,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 6,
+      fontSize: 13,
+      color: "#94a3b8",
+    },
+    playBtn: {
+      width: 36,
+      height: 36,
+      borderRadius: "50%",
+      background: "rgba(255,255,255,0.2)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 16,
+    },
+    meaningBox: {
+      background: "rgba(255,255,255,0.04)",
+      borderRadius: 10,
+      padding: "10px 14px",
+    },
+    meaningLabel: { color: "#64748b", fontSize: 11, marginBottom: 4 },
+    steps: {
+      background: "rgba(255,255,255,0.03)",
+      padding: "60px 48px",
+      borderTop: "1px solid rgba(255,255,255,0.06)",
+    },
+    stepsGrid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(3,1fr)",
+      gap: 20,
+      maxWidth: 900,
+      margin: "0 auto",
+    },
+    stepCard: {
+      background: "rgba(255,255,255,0.05)",
+      border: "1px solid rgba(255,255,255,0.1)",
+      borderRadius: 20,
+      padding: 28,
+    },
+    stepNum: { color: "#22d3ee", fontWeight: 900, fontSize: 14, marginBottom: 12 },
+    stepIcon: { fontSize: 32, marginBottom: 12 },
+    stepTitle: { fontWeight: 700, fontSize: 17 },
+    uploadSection: {
+      padding: "60px 48px",
+      maxWidth: 700,
+      margin: "0 auto",
+    },
+    uploadCard: {
+      background: "rgba(255,255,255,0.05)",
+      border: "1px solid rgba(255,255,255,0.12)",
+      borderRadius: 24,
+      padding: 36,
+    },
+    uploadTitle: { fontSize: 26, fontWeight: 800, marginBottom: 28 },
+    inputRow: { marginBottom: 16 },
+    label: { display: "block", color: "#94a3b8", fontSize: 13, marginBottom: 6 },
+    input: {
+      width: "100%",
+      padding: "13px 16px",
+      borderRadius: 12,
+      border: "1px solid rgba(255,255,255,0.15)",
+      background: "rgba(255,255,255,0.06)",
+      color: "white",
+      fontSize: 15,
+      boxSizing: "border-box",
+      outline: "none",
+    },
+    fileRow: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 },
+    fileBtn: {
+      padding: "12px",
+      borderRadius: 12,
+      border: "1.5px dashed rgba(255,255,255,0.2)",
+      background: "transparent",
+      color: "#94a3b8",
+      fontSize: 13,
+      cursor: "pointer",
+      textAlign: "center",
+    },
+    successBox: {
+      background: "rgba(34,197,94,0.12)",
+      border: "1px solid rgba(34,197,94,0.3)",
+      borderRadius: 12,
+      padding: "14px 18px",
+      color: "#4ade80",
+      fontWeight: 600,
+      marginBottom: 16,
+    },
+    valuesSection: {
+      padding: "50px 48px",
+      borderTop: "1px solid rgba(255,255,255,0.06)",
+    },
+    valuesGrid: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 10,
+      marginTop: 20,
+      maxWidth: 800,
+      margin: "16px auto 0",
+    },
+    valueChip: {
+      padding: "8px 20px",
+      borderRadius: 20,
+      background: "rgba(34,211,238,0.1)",
+      border: "1px solid rgba(34,211,238,0.25)",
+      color: "#22d3ee",
+      fontSize: 14,
+      fontWeight: 600,
+    },
+    erasmusSection: {
+      padding: "50px 48px",
+      borderTop: "1px solid rgba(255,255,255,0.06)",
+      textAlign: "center",
+    },
+    erasmusInner: {
+      maxWidth: 700,
+      margin: "0 auto",
+    },
+    erasmusFlags: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 20,
+      marginBottom: 28,
+    },
+    flagItem: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: 6,
+    },
+    flagLabel: { fontSize: 11, color: "#64748b" },
+    erasmusText: {
+      color: "#94a3b8",
+      lineHeight: 1.8,
+      fontSize: 15,
+    },
+    erasmusProject: {
+      color: "#22d3ee",
+      fontWeight: 700,
+    },
+    footer: {
+      padding: "28px 48px",
+      borderTop: "1px solid rgba(255,255,255,0.06)",
+      textAlign: "center",
+      color: "#475569",
+      fontSize: 13,
+    },
+  };
+
+  const stepIcons = ["🌍", "🤝", "🎓"];
 
   return (
-    <main className="page">
-      <nav className="nav">
-        <div className="brand">
-          <div className="logo">C</div>
+    <div style={styles.body}>
+      {/* NAV */}
+      <nav style={styles.nav}>
+        <div style={styles.logo}>
+          <div style={styles.logoIcon}>C</div>
           <div>
-            <h1>C-LINE TV</h1>
-            <p>Visual Learning Platform</p>
+            <p style={styles.logoText}>C-LINE TV</p>
+            <p style={styles.logoSub}>Visual Learning Platform</p>
           </div>
         </div>
-
-        <div className="langs">
-          {(["tr", "en", "lv", "it"] as Lang[]).map((l) => (
-            <button
-              key={l}
-              onClick={() => setLang(l)}
-              className={lang === l ? "active" : ""}
-            >
-              {l.toUpperCase()}
+        <div style={styles.navLinks}>
+          <button style={styles.navBtn} onClick={() => setShowUpload(true)}>
+            {t.nav[0]}
+          </button>
+          <button
+            style={styles.navBtn}
+            onClick={() => window.open("https://bakirkoybilsem1.github.io/c-line-tv/admin", "_blank")}
+          >
+            {t.nav[1]}
+          </button>
+          <button
+            style={styles.navBtn}
+            onClick={() => window.open("https://bakirkoybilsem1.github.io/c-line-tv/dictionary", "_blank")}
+          >
+            {t.nav[2]}
+          </button>
+        </div>
+        <div style={styles.langBtns}>
+          {["TR","EN","LV","IT"].map(l => (
+            <button key={l} style={styles.langBtn(lang === l)} onClick={() => setLang(l)}>
+              {FLAGS[l]} {l}
             </button>
           ))}
         </div>
       </nav>
 
-      <section className="hero">
-        <div className="heroText">
-          <span className="badge">{t.badge}</span>
-          <h2>{t.hero}</h2>
-
-          <div className="slogans">
-            {[t.slogan1, t.slogan2, t.slogan3, t.slogan4].map((s, i) => (
-              <span key={i} className="slogan">{s}</span>
-            ))}
-          </div>
-
-          <div className="actions">
-            <a className="primary" href="/student">
-              {t.student}
-            </a>
-            <a className="secondary" href="/admin">
-              {t.teacher}
-            </a>
-            <a className="ghost" href="/dictionary">
-              {t.dict}
-            </a>
-          </div>
-        </div>
-
-        <div className="preview">
-          <div className="previewTop">
-            <div>
-              <small>{t.word}</small>
-              <h3>👋 Hello</h3>
-            </div>
-            <span>Approved</span>
-          </div>
-
-          <div className="mediaGrid">
-            <div className="photo">📷</div>
-            <div className="video">
-              <div className="play">▶</div>
-              <p>Student Video</p>
-            </div>
-          </div>
-
-          <div className="meaning">
-            <small>Meaning</small>
-            <p>{t.meaning}</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="features">
-        {[
-          ["01", "📤", t.f1],
-          ["02", "✅", t.f2],
-          ["03", "🌍", t.f3],
-        ].map(([no, icon, title]) => (
-          <div className="feature" key={no}>
-            <span>{no}</span>
-            <div>{icon}</div>
-            <h3>{title}</h3>
-          </div>
-        ))}
-      </section>
-
-      <footer>
-        <div className="footerInner">
-          <div className="erasmusLogo">
-            <div className="erasmusIcon">E+</div>
-            <span>Erasmus+</span>
-          </div>
-
-          <p className="footerText">{t.footer}</p>
-
-          <div className="footerFlags">
-            {Object.entries(FLAGS).map(([code, flag]) => (
-              <span key={code} className="flagItem">
-                {flag} {code}
+      {/* HERO */}
+      <section style={styles.hero}>
+        <div>
+          <span style={styles.badge}>{t.hero_badge}</span>
+          <h1 style={styles.h1}>
+            {t.hero_h1.map((line, i) => (
+              <span key={i} style={{ display: "block", color: i === 1 ? "#22d3ee" : "white" }}>
+                {line}
               </span>
             ))}
+          </h1>
+          <p style={styles.heroP}>{t.hero_p}</p>
+          <div style={styles.heroBtns}>
+            <button style={styles.btnPrimary} onClick={() => setShowUpload(true)}>
+              {t.hero_btn1}
+            </button>
+            <button
+              style={styles.btnSecondary}
+              onClick={() => window.open("https://bakirkoybilsem1.github.io/c-line-tv/dictionary", "_blank")}
+            >
+              {t.hero_btn2}
+            </button>
           </div>
+        </div>
+        <div style={styles.sampleCard}>
+          <div style={styles.sampleTop}>
+            <span style={{ color: "#64748b", fontSize: 12 }}>{t.sample_label}</span>
+            <span style={styles.approvedBadge}>Approved</span>
+          </div>
+          <h2 style={{ fontSize: 36, margin: "0 0 14px", fontWeight: 900 }}>👋 Hello</h2>
+          <div style={styles.mediaRow}>
+            <div style={styles.imgBox}>📷</div>
+            <div style={styles.videoBox}>
+              <div style={styles.playBtn}>▶</div>
+              <span>{t.student_video}</span>
+            </div>
+          </div>
+          <div style={styles.meaningBox}>
+            <p style={styles.meaningLabel}>Meaning</p>
+            <p style={{ margin: 0, fontSize: 14, color: "#e2e8f0" }}>{t.sample_meaning}</p>
+          </div>
+        </div>
+      </section>
 
-          <p className="footerSub">
-            C-LINE TV · TR / EN / LV / IT · Student Powered Learning System
+      {/* STEPS */}
+      <section style={styles.steps}>
+        <div style={styles.stepsGrid}>
+          {t.steps.map((s, i) => (
+            <div key={i} style={styles.stepCard}>
+              <p style={styles.stepNum}>0{i + 1}</p>
+              <div style={styles.stepIcon}>{stepIcons[i]}</div>
+              <p style={styles.stepTitle}>{s}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* UPLOAD PANEL */}
+      {showUpload && (
+        <section style={styles.uploadSection}>
+          <div style={styles.uploadCard}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28 }}>
+              <h2 style={{ ...styles.uploadTitle, margin: 0 }}>{t.upload_title}</h2>
+              <button
+                onClick={() => setShowUpload(false)}
+                style={{ background: "none", border: "none", color: "#64748b", fontSize: 22, cursor: "pointer" }}
+              >✕</button>
+            </div>
+            {uploadSuccess && <div style={styles.successBox}>✅ {t.upload_success}</div>}
+            <form onSubmit={handleUpload}>
+              <div style={styles.inputRow}>
+                <label style={styles.label}>{t.upload_word}</label>
+                <input
+                  style={styles.input}
+                  value={form.word}
+                  onChange={e => setForm({ ...form, word: e.target.value })}
+                  required
+                />
+              </div>
+              <div style={styles.inputRow}>
+                <label style={styles.label}>{t.upload_meaning}</label>
+                <textarea
+                  style={{ ...styles.input, height: 90, resize: "vertical" }}
+                  value={form.meaning}
+                  onChange={e => setForm({ ...form, meaning: e.target.value })}
+                  required
+                />
+              </div>
+              <div style={styles.inputRow}>
+                <label style={styles.label}>{t.upload_name}</label>
+                <input
+                  style={styles.input}
+                  value={form.name}
+                  onChange={e => setForm({ ...form, name: e.target.value })}
+                />
+              </div>
+              <div style={styles.fileRow}>
+                <label style={styles.fileBtn}>
+                  📷 {photoName || t.upload_photo}
+                  <input type="file" accept="image/*" style={{ display: "none" }}
+                    onChange={e => { setForm({ ...form, photo: e.target.files[0] }); setPhotoName(e.target.files[0]?.name || ""); }} />
+                </label>
+                <label style={styles.fileBtn}>
+                  🎬 {videoName || t.upload_video}
+                  <input type="file" accept="video/*" style={{ display: "none" }}
+                    onChange={e => { setForm({ ...form, video: e.target.files[0] }); setVideoName(e.target.files[0]?.name || ""); }} />
+                </label>
+              </div>
+              <button
+                type="submit"
+                style={{ ...styles.btnPrimary, width: "100%", fontSize: 16 }}
+              >
+                {t.upload_btn}
+              </button>
+            </form>
+          </div>
+        </section>
+      )}
+
+      {/* VALUES */}
+      <section style={styles.valuesSection}>
+        <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
+          <h3 style={{ fontSize: 18, fontWeight: 600, color: "#94a3b8", marginBottom: 0 }}>
+            C-LINE Değerleri / Values
+          </h3>
+          <div style={styles.valuesGrid}>
+            {t.values.map((v, i) => (
+              <span key={i} style={styles.valueChip}>{v}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ERASMUS SECTION */}
+      <section style={styles.erasmusSection}>
+        <div style={styles.erasmusInner}>
+          <div style={styles.erasmusFlags}>
+            <div style={styles.flagItem}>
+              {FLAGS.TR}
+              <span style={styles.flagLabel}>Türkiye</span>
+            </div>
+            <div style={styles.flagItem}>
+              {FLAGS.LV}
+              <span style={styles.flagLabel}>Latvija</span>
+            </div>
+            <div style={styles.flagItem}>
+              {FLAGS.IT}
+              <span style={styles.flagLabel}>Italia</span>
+            </div>
+            <div style={{ width: 1, height: 40, background: "rgba(255,255,255,0.1)" }} />
+            <ErasmusLogo />
+          </div>
+          <p style={styles.erasmusText}>
+            {t.erasmus_text}{" "}
+            <span style={styles.erasmusProject}>{t.erasmus_project}</span>{" "}
+            {t.erasmus_agency}
           </p>
         </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer style={styles.footer}>
+        C-LINE TV · TR / EN / LV / IT · {t.footer_tagline}
       </footer>
-
-      <style jsx>{`
-        .page {
-          min-height: 100vh;
-          background:
-            radial-gradient(circle at 10% 10%, rgba(34, 211, 238, 0.35), transparent 30%),
-            radial-gradient(circle at 90% 20%, rgba(250, 204, 21, 0.25), transparent 28%),
-            radial-gradient(circle at 50% 80%, rgba(34, 197, 94, 0.15), transparent 35%),
-            linear-gradient(135deg, #020617, #0f172a 55%, #111827);
-          color: white;
-          font-family: Inter, Arial, sans-serif;
-          overflow-x: hidden;
-        }
-
-        .nav {
-          width: min(1180px, calc(100% - 40px));
-          margin: 0 auto;
-          padding: 28px 0;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 20px;
-        }
-
-        .brand {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-        }
-
-        .logo {
-          width: 54px;
-          height: 54px;
-          border-radius: 18px;
-          background: linear-gradient(135deg, #22d3ee, #facc15);
-          color: #020617;
-          display: grid;
-          place-items: center;
-          font-size: 30px;
-          font-weight: 1000;
-          box-shadow: 0 20px 50px rgba(34, 211, 238, 0.25);
-        }
-
-        .brand h1 {
-          margin: 0;
-          font-size: 28px;
-          letter-spacing: -1px;
-        }
-
-        .brand p {
-          margin: 4px 0 0;
-          color: #94a3b8;
-          font-size: 13px;
-        }
-
-        .langs {
-          display: flex;
-          gap: 8px;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          padding: 6px;
-          border-radius: 18px;
-          backdrop-filter: blur(16px);
-        }
-
-        .langs button {
-          border: 0;
-          border-radius: 12px;
-          padding: 10px 13px;
-          background: transparent;
-          color: #cbd5e1;
-          font-weight: 800;
-          cursor: pointer;
-        }
-
-        .langs button.active {
-          background: #22d3ee;
-          color: #020617;
-        }
-
-        .hero {
-          width: min(1180px, calc(100% - 40px));
-          margin: 55px auto 0;
-          display: grid;
-          grid-template-columns: 1.1fr 0.9fr;
-          gap: 48px;
-          align-items: center;
-        }
-
-        .badge {
-          display: inline-block;
-          padding: 10px 16px;
-          border-radius: 999px;
-          border: 1px solid rgba(34, 211, 238, 0.35);
-          background: rgba(34, 211, 238, 0.12);
-          color: #a5f3fc;
-          font-weight: 800;
-          font-size: 14px;
-        }
-
-        .hero h2 {
-          margin: 24px 0 0;
-          font-size: clamp(42px, 6vw, 78px);
-          line-height: 0.95;
-          letter-spacing: -3px;
-          max-width: 780px;
-        }
-
-        .slogans {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-          margin-top: 28px;
-        }
-
-        .slogan {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          padding: 8px 16px;
-          border-radius: 999px;
-          background: rgba(34, 197, 94, 0.12);
-          border: 1px solid rgba(34, 197, 94, 0.3);
-          color: #86efac;
-          font-size: 13px;
-          font-weight: 700;
-        }
-
-        .slogan::before {
-          content: "✦";
-          font-size: 10px;
-          opacity: 0.7;
-        }
-
-        .actions {
-          margin-top: 34px;
-          display: flex;
-          flex-wrap: wrap;
-          gap: 14px;
-        }
-
-        .actions a {
-          text-decoration: none;
-          padding: 16px 22px;
-          border-radius: 18px;
-          font-weight: 900;
-          transition: 0.2s;
-        }
-
-        .actions a:hover {
-          transform: translateY(-3px);
-        }
-
-        .primary {
-          background: #22d3ee;
-          color: #020617;
-          box-shadow: 0 18px 40px rgba(34, 211, 238, 0.25);
-        }
-
-        .secondary {
-          background: #facc15;
-          color: #020617;
-          box-shadow: 0 18px 40px rgba(250, 204, 21, 0.2);
-        }
-
-        .ghost {
-          background: rgba(255, 255, 255, 0.08);
-          color: white;
-          border: 1px solid rgba(255, 255, 255, 0.14);
-        }
-
-        .preview {
-          border-radius: 34px;
-          padding: 24px;
-          background: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          backdrop-filter: blur(20px);
-          box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
-        }
-
-        .previewTop {
-          display: flex;
-          justify-content: space-between;
-          align-items: start;
-          gap: 20px;
-          margin-bottom: 20px;
-        }
-
-        small {
-          color: #94a3b8;
-          font-weight: 800;
-        }
-
-        .preview h3 {
-          margin: 6px 0 0;
-          font-size: 38px;
-        }
-
-        .previewTop span {
-          background: #facc15;
-          color: #020617;
-          padding: 9px 13px;
-          border-radius: 999px;
-          font-weight: 1000;
-          font-size: 13px;
-        }
-
-        .mediaGrid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 16px;
-        }
-
-        .photo,
-        .video {
-          min-height: 230px;
-          border-radius: 28px;
-          display: grid;
-          place-items: center;
-          text-align: center;
-        }
-
-        .photo {
-          font-size: 72px;
-          background: linear-gradient(135deg, #22d3ee, #2563eb);
-        }
-
-        .video {
-          background: linear-gradient(135deg, #1e293b, #020617);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .play {
-          width: 70px;
-          height: 70px;
-          display: grid;
-          place-items: center;
-          border-radius: 999px;
-          background: rgba(255, 255, 255, 0.12);
-          font-size: 28px;
-          margin: 0 auto 12px;
-        }
-
-        .video p {
-          color: #cbd5e1;
-          margin: 0;
-          font-weight: 800;
-        }
-
-        .meaning {
-          margin-top: 18px;
-          padding: 20px;
-          border-radius: 24px;
-          background: rgba(255, 255, 255, 0.07);
-        }
-
-        .meaning p {
-          margin: 8px 0 0;
-          font-size: 18px;
-          color: white;
-        }
-
-        .features {
-          width: min(1180px, calc(100% - 40px));
-          margin: 70px auto 0;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 18px;
-        }
-
-        .feature {
-          padding: 28px;
-          border-radius: 30px;
-          background: rgba(255, 255, 255, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.11);
-        }
-
-        .feature span {
-          color: #22d3ee;
-          font-weight: 1000;
-        }
-
-        .feature div {
-          margin-top: 20px;
-          font-size: 42px;
-        }
-
-        .feature h3 {
-          margin: 16px 0 0;
-          font-size: 24px;
-        }
-
-        footer {
-          margin-top: 70px;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-          background: rgba(255, 255, 255, 0.03);
-        }
-
-        .footerInner {
-          width: min(1180px, calc(100% - 40px));
-          margin: 0 auto;
-          padding: 48px 0 36px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 24px;
-          text-align: center;
-        }
-
-        .erasmusLogo {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .erasmusIcon {
-          width: 52px;
-          height: 52px;
-          border-radius: 14px;
-          background: linear-gradient(135deg, #003399, #ffcc00);
-          color: white;
-          display: grid;
-          place-items: center;
-          font-size: 18px;
-          font-weight: 900;
-          letter-spacing: -1px;
-        }
-
-        .erasmusLogo span {
-          font-size: 22px;
-          font-weight: 900;
-          color: #ffcc00;
-          letter-spacing: -0.5px;
-        }
-
-        .footerText {
-          max-width: 780px;
-          color: #cbd5e1;
-          line-height: 1.7;
-          font-size: 15px;
-          margin: 0;
-        }
-
-        .footerFlags {
-          display: flex;
-          gap: 24px;
-          align-items: center;
-        }
-
-        .flagItem {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 20px;
-          font-weight: 800;
-          color: #e2e8f0;
-          letter-spacing: 1px;
-        }
-
-        .footerSub {
-          color: #64748b;
-          font-size: 13px;
-          margin: 0;
-        }
-
-        @media (max-width: 900px) {
-          .nav {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-
-          .hero {
-            grid-template-columns: 1fr;
-            margin-top: 30px;
-          }
-
-          .features {
-            grid-template-columns: 1fr;
-          }
-
-          .mediaGrid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
-    </main>
+    </div>
   );
 }
