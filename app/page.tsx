@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
 
 const LANGS = {
   TR: {
@@ -107,11 +107,11 @@ const LANGS = {
     student_video: "Video studente",
     footer_tagline: "Student Powered Learning System",
   },
-} as const;
+};
 
 type LangKey = keyof typeof LANGS;
 
-const FLAGS: Record<LangKey, React.ReactNode> = {
+const FLAGS: Record<LangKey, ReactNode> = {
   TR: (
     <svg width="28" height="20" viewBox="0 0 28 20" style={{borderRadius:3,display:"block"}}>
       <rect width="28" height="20" fill="#E30A17"/>
@@ -167,7 +167,7 @@ export default function App() {
 
   const t = LANGS[lang];
 
-  function handleUpload(e: React.FormEvent<HTMLFormElement>) {
+  function handleUpload(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setUploadSuccess(true);
     setForm({ word: "", meaning: "", name: "", photo: null, video: null });
@@ -235,7 +235,7 @@ export default function App() {
       display: "flex",
       gap: 4,
     },
-    langBtn: (active) => ({
+    langBtn: (active: boolean) => ({
       display: "flex",
       alignItems: "center",
       gap: 5,
@@ -633,20 +633,12 @@ export default function App() {
                 <label style={styles.fileBtn}>
                   📷 {photoName || t.upload_photo}
                   <input type="file" accept="image/*" style={{ display: "none" }}
-                    onChange={(e) => {
-                      const file = e.target.files?.[0] ?? null;
-                      setForm({ ...form, photo: file });
-                      setPhotoName(file?.name || "");
-                    }} />
+                    onChange={(e) => { const file = e.target.files?.[0] || null; setForm({ ...form, photo: file }); setPhotoName(file?.name || ""); }} />
                 </label>
                 <label style={styles.fileBtn}>
                   🎬 {videoName || t.upload_video}
                   <input type="file" accept="video/*" style={{ display: "none" }}
-                    onChange={(e) => {
-                      const file = e.target.files?.[0] ?? null;
-                      setForm({ ...form, video: file });
-                      setVideoName(file?.name || "");
-                    }} />
+                    onChange={(e) => { const file = e.target.files?.[0] || null; setForm({ ...form, video: file }); setVideoName(file?.name || ""); }} />
                 </label>
               </div>
               <button
