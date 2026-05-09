@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 
 const LANGS = {
@@ -156,16 +154,16 @@ const ErasmusLogo = () => (
 );
 
 export default function App() {
-  const [lang, setLang] = useState("TR");
+  const [lang, setLang] = useState<keyof typeof LANGS>("TR");
   const [showUpload, setShowUpload] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [form, setForm] = useState({ word: "", meaning: "", name: "", photo: null, video: null });
+  const [form, setForm] = useState<{ word: string; meaning: string; name: string; photo: File | null; video: File | null }>({ word: "", meaning: "", name: "", photo: null, video: null });
   const [photoName, setPhotoName] = useState("");
   const [videoName, setVideoName] = useState("");
 
   const t = LANGS[lang];
 
-  function handleUpload(e) {
+  function handleUpload(e: React.FormEvent) {
     e.preventDefault();
     setUploadSuccess(true);
     setForm({ word: "", meaning: "", name: "", photo: null, video: null });
