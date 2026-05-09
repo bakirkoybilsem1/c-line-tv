@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const LANGS = {
   TR: {
@@ -107,9 +107,11 @@ const LANGS = {
     student_video: "Video studente",
     footer_tagline: "Student Powered Learning System",
   },
-};
+} as const;
 
-const FLAGS = {
+type LangKey = keyof typeof LANGS;
+
+const FLAGS: Record<LangKey, React.ReactNode> = {
   TR: (
     <svg width="28" height="20" viewBox="0 0 28 20" style={{borderRadius:3,display:"block"}}>
       <rect width="28" height="20" fill="#E30A17"/>
@@ -156,7 +158,7 @@ const ErasmusLogo = () => (
 );
 
 export default function App() {
-  const [lang, setLang] = useState<keyof typeof LANGS>("TR");
+  const [lang, setLang] = useState<LangKey>("TR");
   const [showUpload, setShowUpload] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [form, setForm] = useState<{ word: string; meaning: string; name: string; photo: File | null; video: File | null }>({ word: "", meaning: "", name: "", photo: null, video: null });
@@ -165,7 +167,7 @@ export default function App() {
 
   const t = LANGS[lang];
 
-  function handleUpload(e: React.FormEvent) {
+  function handleUpload(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setUploadSuccess(true);
     setForm({ word: "", meaning: "", name: "", photo: null, video: null });
@@ -523,7 +525,7 @@ export default function App() {
           </button>
         </div>
         <div style={styles.langBtns}>
-          {["TR","EN","LV","IT"].map(l => (
+          {(["TR", "EN", "LV", "IT"] as LangKey[]).map((l) => (
             <button key={l} style={styles.langBtn(lang === l)} onClick={() => setLang(l)}>
               {FLAGS[l]} {l}
             </button>
@@ -631,12 +633,20 @@ export default function App() {
                 <label style={styles.fileBtn}>
                   📷 {photoName || t.upload_photo}
                   <input type="file" accept="image/*" style={{ display: "none" }}
-                    onChange={e => { setForm({ ...form, photo: e.target.files[0] }); setPhotoName(e.target.files[0]?.name || ""); }} />
+                    onChange={(e) => {
+                      const file = e.target.files?.[0] ?? null;
+                      setForm({ ...form, photo: file });
+                      setPhotoName(file?.name || "");
+                    }} />
                 </label>
                 <label style={styles.fileBtn}>
                   🎬 {videoName || t.upload_video}
                   <input type="file" accept="video/*" style={{ display: "none" }}
-                    onChange={e => { setForm({ ...form, video: e.target.files[0] }); setVideoName(e.target.files[0]?.name || ""); }} />
+                    onChange={(e) => {
+                      const file = e.target.files?.[0] ?? null;
+                      setForm({ ...form, video: file });
+                      setVideoName(file?.name || "");
+                    }} />
                 </label>
               </div>
               <button
