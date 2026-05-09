@@ -57,7 +57,7 @@ C-LINE Studio aims to:
 - AI-supported gesture recognition  
 - Gamification (points, badges, levels)  
 - Advanced filtering and search  
-- Mobile application integration  
+- Mobile application integration 
 
 ---
 
