@@ -6,7 +6,7 @@ C-LINE Studio is an interactive, student-centered platform designed to support v
 
 The platform enables students to contribute by uploading **photos and videos** that represent concepts, while educators maintain quality through a structured **approval system**.
 
----
+--- 
 
 ## 🌍 Features
 
