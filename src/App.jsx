@@ -1,9 +1,34 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import StudentUpload from './pages/StudentUpload'
+import TeacherDashboard from './pages/TeacherDashboard'
+import Dictionary from './pages/Dictionary'
+
+function PrivateRoute({ children, role }) {
+  const userRole = sessionStorage.getItem('role')
+  if (userRole !== role) return <Navigate to="/login" />
+  return children
+}
+
 export default function App() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold text-blue-600">
-        C-LINE TV 🚀
-      </h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dictionary" element={<Dictionary />} />
+        <Route path="/upload" element={
+          <PrivateRoute role="student">
+            <StudentUpload />
+          </PrivateRoute>
+        } />
+        <Route path="/teacher" element={
+          <PrivateRoute role="teacher">
+            <TeacherDashboard />
+          </PrivateRoute>
+        } />
+      </Routes>
+    </BrowserRouter>
   )
 }
