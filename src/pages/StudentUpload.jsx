@@ -48,7 +48,7 @@ export default function StudentUpload() {
       setPhoto(null)
       setVideo(null)
     } catch (err) {
-      setError('Bir hata oluştu: ' + err.message)
+      setError('Hata: ' + JSON.stringify(err))
     }
     setLoading(false)
   }
