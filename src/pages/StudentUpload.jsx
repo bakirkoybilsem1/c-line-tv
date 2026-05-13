@@ -18,6 +18,11 @@ export default function StudentUpload() {
     navigate('/')
   }
 
+  // Dosya adındaki boşlukları ve özel karakterleri temizler
+  function sanitize(filename) {
+    return filename.replace(/\s+/g, '_').replace(/[^\w.\-]/g, '')
+  }
+
   async function handleSubmit() {
     if (!name || !word || !photo || !video) {
       setError('Lütfen tüm alanları doldurun.')
@@ -26,11 +31,11 @@ export default function StudentUpload() {
     setLoading(true)
     setError('')
     try {
-      const photoPath = `photos/${Date.now()}-${photo.name}`
+      const photoPath = `photos/${Date.now()}-${sanitize(photo.name)}`
       const { data: photoData, error: photoError } = await supabase.storage.from('media').upload(photoPath, photo)
       if (photoError) throw photoError
 
-      const videoPath = `videos/${Date.now()}-${video.name}`
+      const videoPath = `videos/${Date.now()}-${sanitize(video.name)}`
       const { data: videoData, error: videoError } = await supabase.storage.from('media').upload(videoPath, video)
       if (videoError) throw videoError
 
