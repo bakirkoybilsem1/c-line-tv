@@ -1,4 +1,74 @@
 {
+  "common": {
+    "login": "Giriş Yap",
+    "logout": "Çıkış",
+    "loading": "Yükleniyor...",
+    "photo": "Fotoğraf",
+    "video": "Video",
+    "dictionary": "Sözlük"
+  },
+  "home": {
+    "badge": "Erasmus+ KA210-SCH Projesi",
+    "tagline": "İşaret dili ile köprüler kuran, fikirleri birleştiren platform",
+    "goDictionary": "Sözlüğe Git",
+    "howTitle": "Nasıl Çalışır?",
+    "howSubtitle": "Üç adımda işaret dili sözlüğüne katkı sağla",
+    "features": {
+      "f1": { "title": "İşaret Dili Sözlüğü", "desc": "Öğrencilerin hazırladığı video ve fotoğraflarla zengin bir sözlük." },
+      "f2": { "title": "Öğrenci Katkısı", "desc": "Her öğrenci kendi kelimesini yükleyerek sözlüğe katkı sağlar." },
+      "f3": { "title": "Öğretmen Onayı", "desc": "Yüklenen içerikler öğretmen denetiminden geçerek yayına girer." }
+    },
+    "visionTitle": "Vizyonumuz",
+    "visionSubtitle": "C-LINE TV'nin temel değerleri",
+    "slogans": {
+      "s1": "Sınırları ve sorunları ortadan kaldıran platform…",
+      "s2": "Farklılıklarla Güçlenen Fikirler, Ortak Bir Dilde Üreten Gelecek.",
+      "s3": "Girişimcilikte Sınır Yok, Bütünleştiren Adımlar Var!",
+      "s4": "Sorunları Aşan Fikirler, Herkese Açık Fırsatlar.",
+      "s5": "Çeşitlilikten Doğan Yenilik, Hepimiz İçin Girişimcilik."
+    },
+    "ctaTitle": "Hemen Başla",
+    "ctaText": "İşaret dili sözlüğüne katkı sağla, fark yarat."
+  },
+  "login": {
+    "welcome": "C-LINE TV platformuna hoş geldiniz",
+    "password": "Şifre",
+    "wrong": "Şifre hatalı. Lütfen tekrar deneyin.",
+    "browse": "Sözlüğe göz at"
+  },
+  "upload": {
+    "title": "Kelime Yükle",
+    "subtitle": "Öğretmen onayından sonra sözlüğe eklenecek",
+    "success": "Başarıyla gönderildi! Öğretmen onayı bekleniyor.",
+    "fullName": "Ad Soyad",
+    "namePlaceholder": "Adınız Soyadınız",
+    "wordLabel": "Kelimenin Adı",
+    "wordPlaceholder": "Örn: Merhaba",
+    "fillAll": "Lütfen tüm alanları doldurun.",
+    "errorPrefix": "Hata: ",
+    "submit": "Gönder",
+    "uploading": "Yükleniyor..."
+  },
+  "teacher": {
+    "panel": "Öğretmen Paneli",
+    "heading": "Kelime Yönetimi",
+    "pending": "Bekleyen",
+    "approved": "Onaylanan",
+    "rejected": "Reddedilen",
+    "empty": "Bu kategoride kelime yok",
+    "approve": "Onayla",
+    "hold": "Beklemeye Al",
+    "reject": "Reddet",
+    "delete": "Sil",
+    "confirmDelete": "Bu kelimeyi silmek istediğinizden emin misiniz?"
+  },
+  "dictionary": {
+    "title": "İşaret Dili Sözlüğü",
+    "subtitle": "Öğrenciler tarafından hazırlanan işaret dili videoları",
+    "search": "Kelime ara...",
+    "random": "Rastgele",
+    "empty": "Henüz kelime eklenmemiş"
+  },
   "footer": {
     "countries": { "tr": "Türkiye", "it": "İtalya", "lv": "Letonya" },
     "project": "Bakırköy Bilim ve Sanat Merkezi koordinatörlüğünde hazırlanan <name>\"A Common Language for Integrative Entrepreneurship (C-LINE)\"</name> başlıklı Erasmus+ KA210-SCH projesi, Türkiye Ulusal Ajansı tarafından kabul edilmiştir."
