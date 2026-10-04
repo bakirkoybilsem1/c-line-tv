@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import Footer from '../components/Footer'
+import LanguageSwitcher from '../components/LanguageSwitcher'
 
 export default function Dictionary() {
+  const { t } = useTranslation()
   const [words, setWords] = useState([])
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
@@ -37,28 +40,31 @@ export default function Dictionary() {
     <div className="min-h-screen flex flex-col bg-gray-50">
       <header className="bg-blue-700 text-white py-4 px-8 flex items-center justify-between">
         <Link to="/" className="text-2xl font-bold">C-LINE TV</Link>
-        <Link to="/login" className="text-sm bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-400 transition">
-          Giriş Yap
-        </Link>
+        <div className="flex items-center gap-4">
+          <LanguageSwitcher />
+          <Link to="/login" className="text-sm bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-400 transition">
+            {t('common.login')}
+          </Link>
+        </div>
       </header>
 
       <div className="flex-1 max-w-4xl mx-auto w-full px-4 py-12">
-        <h2 className="text-2xl font-bold text-blue-700 mb-2">📖 İşaret Dili Sözlüğü</h2>
-        <p className="text-gray-500 mb-8 text-sm">Öğrenciler tarafından hazırlanan işaret dili videoları</p>
+        <h2 className="text-2xl font-bold text-blue-700 mb-2">📖 {t('dictionary.title')}</h2>
+        <p className="text-gray-500 mb-8 text-sm">{t('dictionary.subtitle')}</p>
 
         <div className="flex gap-3 mb-8">
           <input
             type="text"
             value={search}
             onChange={e => { setSearch(e.target.value); setSelected(null) }}
-            placeholder="Kelime ara..."
+            placeholder={t('dictionary.search')}
             className="flex-1 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
           />
           <button
             onClick={randomWord}
             className="bg-blue-700 text-white font-bold px-6 py-3 rounded-lg hover:bg-blue-600 transition whitespace-nowrap"
           >
-            🎲 Rastgele
+            🎲 {t('dictionary.random')}
           </button>
         </div>
 
@@ -67,7 +73,7 @@ export default function Dictionary() {
             <h3 className="text-2xl font-bold text-blue-700 mb-4">{selected.word}</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-sm text-gray-500 mb-2">📷 Fotoğraf</p>
+                <p className="text-sm text-gray-500 mb-2">📷 {t('common.photo')}</p>
                 <img
                   src={selected.photo_url}
                   alt={selected.word}
@@ -75,7 +81,7 @@ export default function Dictionary() {
                 />
               </div>
               <div>
-                <p className="text-sm text-gray-500 mb-2">🎥 Video</p>
+                <p className="text-sm text-gray-500 mb-2">🎥 {t('common.video')}</p>
                 <video
                   src={selected.video_url}
                   controls
@@ -88,13 +94,13 @@ export default function Dictionary() {
         )}
 
         {loading && (
-          <div className="text-center text-gray-400 py-20">Yükleniyor...</div>
+          <div className="text-center text-gray-400 py-20">{t('common.loading')}</div>
         )}
 
         {!loading && words.length === 0 && (
           <div className="text-center bg-white rounded-2xl shadow p-16 text-gray-400">
             <p className="text-5xl mb-4">📭</p>
-            <p className="text-lg font-medium">Henüz kelime eklenmemiş</p>
+            <p className="text-lg font-medium">{t('dictionary.empty')}</p>
           </div>
         )}
 
