@@ -1,4 +1,74 @@
 {
+  "common": {
+    "login": "Accedi",
+    "logout": "Esci",
+    "loading": "Caricamento...",
+    "photo": "Foto",
+    "video": "Video",
+    "dictionary": "Dizionario"
+  },
+  "home": {
+    "badge": "Progetto Erasmus+ KA210-SCH",
+    "tagline": "La piattaforma che costruisce ponti con la lingua dei segni e unisce le idee",
+    "goDictionary": "Vai al dizionario",
+    "howTitle": "Come funziona?",
+    "howSubtitle": "Contribuisci al dizionario della lingua dei segni in tre passi",
+    "features": {
+      "f1": { "title": "Dizionario della lingua dei segni", "desc": "Un dizionario ricco di video e foto realizzati dagli studenti." },
+      "f2": { "title": "Il contributo degli studenti", "desc": "Ogni studente contribuisce al dizionario caricando la propria parola." },
+      "f3": { "title": "Approvazione dell'insegnante", "desc": "I contenuti caricati vengono pubblicati dopo la verifica dell'insegnante." }
+    },
+    "visionTitle": "La nostra visione",
+    "visionSubtitle": "I valori fondamentali di C-LINE TV",
+    "slogans": {
+      "s1": "La piattaforma che elimina confini e ostacoli…",
+      "s2": "Idee rafforzate dalle differenze, un futuro creato in un linguaggio comune.",
+      "s3": "Nell'imprenditorialità non ci sono confini, ci sono passi che uniscono!",
+      "s4": "Idee che superano gli ostacoli, opportunità aperte a tutti.",
+      "s5": "L'innovazione nata dalla diversità, imprenditorialità per tutti noi."
+    },
+    "ctaTitle": "Inizia subito",
+    "ctaText": "Contribuisci al dizionario della lingua dei segni e fai la differenza."
+  },
+  "login": {
+    "welcome": "Benvenuto sulla piattaforma C-LINE TV",
+    "password": "Password",
+    "wrong": "Password errata. Riprova.",
+    "browse": "Sfoglia il dizionario"
+  },
+  "upload": {
+    "title": "Carica una parola",
+    "subtitle": "Sarà aggiunta al dizionario dopo l'approvazione dell'insegnante",
+    "success": "Inviato con successo! In attesa dell'approvazione dell'insegnante.",
+    "fullName": "Nome e cognome",
+    "namePlaceholder": "Il tuo nome e cognome",
+    "wordLabel": "Parola",
+    "wordPlaceholder": "Es.: Ciao",
+    "fillAll": "Compila tutti i campi.",
+    "errorPrefix": "Errore: ",
+    "submit": "Invia",
+    "uploading": "Caricamento in corso..."
+  },
+  "teacher": {
+    "panel": "Pannello insegnante",
+    "heading": "Gestione delle parole",
+    "pending": "In attesa",
+    "approved": "Approvate",
+    "rejected": "Rifiutate",
+    "empty": "Nessuna parola in questa categoria",
+    "approve": "Approva",
+    "hold": "Rimetti in attesa",
+    "reject": "Rifiuta",
+    "delete": "Elimina",
+    "confirmDelete": "Sei sicuro di voler eliminare questa parola?"
+  },
+  "dictionary": {
+    "title": "Dizionario della lingua dei segni",
+    "subtitle": "Video della lingua dei segni preparati dagli studenti",
+    "search": "Cerca una parola...",
+    "random": "Casuale",
+    "empty": "Nessuna parola è stata ancora aggiunta"
+  },
   "footer": {
     "countries": { "tr": "Turchia", "it": "Italia", "lv": "Lettonia" },
     "project": "Il progetto Erasmus+ KA210-SCH <name>\"A Common Language for Integrative Entrepreneurship (C-LINE)\"</name>, coordinato dal Bakırköy Bilim ve Sanat Merkezi, è stato approvato dall'Agenzia Nazionale turca."
