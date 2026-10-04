@@ -1,4 +1,74 @@
 {
+  "common": {
+    "login": "Pieteikties",
+    "logout": "Iziet",
+    "loading": "Notiek ielāde...",
+    "photo": "Foto",
+    "video": "Video",
+    "dictionary": "Vārdnīca"
+  },
+  "home": {
+    "badge": "Erasmus+ KA210-SCH projekts",
+    "tagline": "Platforma, kas ar zīmju valodu veido tiltus un vieno idejas",
+    "goDictionary": "Atvērt vārdnīcu",
+    "howTitle": "Kā tas darbojas?",
+    "howSubtitle": "Trīs soļos piedalies zīmju valodas vārdnīcas veidošanā",
+    "features": {
+      "f1": { "title": "Zīmju valodas vārdnīca", "desc": "Bagātīga vārdnīca ar skolēnu sagatavotiem video un fotoattēliem." },
+      "f2": { "title": "Skolēnu ieguldījums", "desc": "Katrs skolēns papildina vārdnīcu, augšupielādējot savu vārdu." },
+      "f3": { "title": "Skolotāja apstiprinājums", "desc": "Augšupielādētais saturs tiek publicēts pēc skolotāja pārbaudes." }
+    },
+    "visionTitle": "Mūsu vīzija",
+    "visionSubtitle": "C-LINE TV pamatvērtības",
+    "slogans": {
+      "s1": "Platforma, kas novērš robežas un šķēršļus…",
+      "s2": "Idejas, kas kļūst stiprākas ar atšķirībām – nākotne, ko radām kopīgā valodā.",
+      "s3": "Uzņēmējdarbībā nav robežu – ir soļi, kas vieno!",
+      "s4": "Idejas, kas pārvar šķēršļus – iespējas visiem.",
+      "s5": "No daudzveidības dzimusī inovācija – uzņēmējdarbība mums visiem."
+    },
+    "ctaTitle": "Sāc tūlīt",
+    "ctaText": "Piedalies zīmju valodas vārdnīcas veidošanā un rado pārmaiņas."
+  },
+  "login": {
+    "welcome": "Laipni lūdzam C-LINE TV platformā",
+    "password": "Parole",
+    "wrong": "Nepareiza parole. Lūdzu, mēģini vēlreiz.",
+    "browse": "Apskatīt vārdnīcu"
+  },
+  "upload": {
+    "title": "Augšupielādēt vārdu",
+    "subtitle": "Pēc skolotāja apstiprinājuma tiks pievienots vārdnīcai",
+    "success": "Veiksmīgi nosūtīts! Tiek gaidīts skolotāja apstiprinājums.",
+    "fullName": "Vārds, uzvārds",
+    "namePlaceholder": "Tavs vārds un uzvārds",
+    "wordLabel": "Vārds",
+    "wordPlaceholder": "Piem.: Sveiki",
+    "fillAll": "Lūdzu, aizpildi visus laukus.",
+    "errorPrefix": "Kļūda: ",
+    "submit": "Nosūtīt",
+    "uploading": "Notiek augšupielāde..."
+  },
+  "teacher": {
+    "panel": "Skolotāja panelis",
+    "heading": "Vārdu pārvaldība",
+    "pending": "Gaida",
+    "approved": "Apstiprinātie",
+    "rejected": "Noraidītie",
+    "empty": "Šajā kategorijā nav vārdu",
+    "approve": "Apstiprināt",
+    "hold": "Atgriezt gaidīšanā",
+    "reject": "Noraidīt",
+    "delete": "Dzēst",
+    "confirmDelete": "Vai tiešām vēlaties dzēst šo vārdu?"
+  },
+  "dictionary": {
+    "title": "Zīmju valodas vārdnīca",
+    "subtitle": "Skolēnu sagatavoti zīmju valodas video",
+    "search": "Meklēt vārdu...",
+    "random": "Nejaušs",
+    "empty": "Vārdnīcai vēl nav pievienots neviens vārds"
+  },
   "footer": {
     "countries": { "tr": "Turcija", "it": "Itālija", "lv": "Latvija" },
     "project": "Erasmus+ KA210-SCH projektu <name>\"A Common Language for Integrative Entrepreneurship (C-LINE)\"</name>, kuru koordinē Bakırköy Bilim ve Sanat Merkezi, ir apstiprinājusi Turcijas Nacionālā aģentūra."
