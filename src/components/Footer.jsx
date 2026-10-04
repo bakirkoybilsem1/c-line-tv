@@ -1,8 +1,11 @@
+import { useTranslation, Trans } from 'react-i18next'
+
 export default function Footer() {
+  const { t } = useTranslation()
   const flags = [
-    { code: 'tr', name: 'Türkiye', color: '#E30A17' },
-    { code: 'it', name: 'İtalya', color: '#009246' },
-    { code: 'lv', name: 'Letonya', color: '#9E3039' },
+    { code: 'tr', color: '#E30A17' },
+    { code: 'it', color: '#009246' },
+    { code: 'lv', color: '#9E3039' },
   ]
 
   return (
@@ -15,10 +18,10 @@ export default function Footer() {
             <div key={f.code} className="flex flex-col items-center gap-2">
               <img
                 src={`https://flagcdn.com/w80/${f.code}.png`}
-                alt={f.name}
+                alt={t(`footer.countries.${f.code}`)}
                 className="w-12 h-8 object-cover rounded shadow"
               />
-              <span className="text-xs text-gray-400">{f.name}</span>
+              <span className="text-xs text-gray-400">{t(`footer.countries.${f.code}`)}</span>
             </div>
           ))}
         </div>
@@ -38,11 +41,10 @@ export default function Footer() {
 
         <div className="border-t border-gray-700 pt-6">
           <p className="text-center text-gray-400 text-sm leading-relaxed max-w-2xl mx-auto">
-            Bakırköy Bilim ve Sanat Merkezi koordinatörlüğünde hazırlanan{' '}
-            <span className="text-white font-semibold">
-              "A Common Language for Integrative Entrepreneurship (C-LINE)"
-            </span>{' '}
-            başlıklı Erasmus+ KA210-SCH projesi, Türkiye Ulusal Ajansı tarafından kabul edilmiştir.
+            <Trans
+              i18nKey="footer.project"
+              components={{ name: <span className="text-white font-semibold" /> }}
+            />
           </p>
         </div>
 
